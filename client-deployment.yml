@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: api
+  template:
+    metadata:
+      labels:
+        component: api
+    spec:
+      containers:
+        - name: client
+          image: gaurav9112in/simple_blog_api_k8s:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: POSTGRES_PASSWORD
+              value: postgres_password
+            - name: POSTGRES_DB
+              value: simple_blog_api
+            - name: POSTGRES_USERNAME
+              value: postgres
+            - name: POSTGRES_HOST
+              value: postgres-cluster-ip-service
+            - name: POSTGRES_PORT
+              value: '5432'
